@@ -7,24 +7,9 @@ use Illuminate\Http\Request;
 
 class HistoricPriceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function __construct(HistoricPrice $historicPrice) {
+        $this->historicPrice = $historicPrice;
     }
 
     /**
@@ -35,51 +20,38 @@ class HistoricPriceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $historicPrice = $this->historicPrice->create($request->all());
+        return response()->json($historicPrice, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\HistoricPrice  $historicPrice
+     * @param  string  $coin_id
      * @return \Illuminate\Http\Response
      */
-    public function show(HistoricPrice $historicPrice)
+    public function show($coin_id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\HistoricPrice  $historicPrice
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(HistoricPrice $historicPrice)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\HistoricPrice  $historicPrice
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, HistoricPrice $historicPrice)
-    {
-        //
+        $historicPrice = $this->historicPrice->where('coin_id', $coin_id)->get();
+        if (!$historicPrice) {
+            return response()->json(['error'=>'Historico de preços de '.$coin_id.' não existe.'], 404);
+        }
+        return response()->json($historicPrice, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\HistoricPrice  $historicPrice
+     * @param  string  $coin_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(HistoricPrice $historicPrice)
+    public function destroy($coin_id)
     {
-        //
+        $historicPrice = $this->historicPrice->where('coin_id', $coin_id)->get();
+        if (!$historicPrice) {
+            return response()->json(['error'=>'Historico de preços de '.$coin_id.' não existe.'], 404);
+        }
+        $historicPrice->delete();
+        return response()->json($historicPrice, 200);
     }
 }
