@@ -10,4 +10,8 @@ class HistoricPrice extends Model
     use HasFactory;
 
     protected $fillable = ['coin_id', 'price'];
+
+    public function coins() {
+        return $this->belongsTo(Coin::class);
+    }
 }

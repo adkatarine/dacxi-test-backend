@@ -11,4 +11,8 @@ class Coin extends Model
 
     protected $fillable = ['id', 'name', 'symbol'];
     public $incrementing = false;
+
+    public function historic_prices() {
+        return $this->hasMany(HistoricPrice::class);
+    }
 }
