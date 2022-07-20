@@ -15,4 +15,9 @@ class FormatData {
         $response = (string)$object->getBody();
         return json_decode($response, true);
     }
+
+    public static function dateTime($datetime) {
+        list($date, $time) = explode(" ", $datetime);
+        return ['date' => $date, 'time' => $time];
+    }
 }

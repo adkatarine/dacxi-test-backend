@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\HistoricPrice;
+use App\Http\Resources\HistoricPriceCollection;
+use App\Http\Resources\HistoricPriceResource;
 use Illuminate\Http\Request;
 
 class HistoricPriceController extends Controller
@@ -19,8 +21,8 @@ class HistoricPriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function lastPriceBitcoin(Request $request) {
-        $historicPrice = $this->historicPrice
-            ->where('coin_id', $request->coin_id)->orderBy('created_at', 'desc')->first();
+        $historicPrice = new HistoricPriceResource($this->historicPrice
+            ->where('coin_id', $request->coin_id)->orderBy('created_at', 'desc')->first());
         return response()->json($historicPrice, 200);
     }
 
@@ -60,7 +62,7 @@ class HistoricPriceController extends Controller
      */
     public function show(Request $request)
     {
-        $historicPrice = $this->historicPrice->where('coin_id', $request->coin_id)->get();
+        $historicPrice = new HistoricPriceCollection($this->historicPrice->where('coin_id', $request->coin_id)->get());
         if (!$historicPrice) {
             return response()->json(['error'=>'Historico de preços de '.$request->coin_id.' não existe.'], 404);
         }
