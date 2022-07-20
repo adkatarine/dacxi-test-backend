@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('historic_prices', function (Blueprint $table) {
             $table->id();
             $table->string('coin_id');
-            $table->float('price', 8, 3);
+            $table->string('price', 10);
             $table->timestamps();
 
             $table->foreign('coin_id')->references('id')->on('coins');
