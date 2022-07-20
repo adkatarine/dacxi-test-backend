@@ -20,10 +20,18 @@ class HistoricPriceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function lastPriceBitcoin(Request $request) {
-        $historicPrice = new HistoricPriceResource($this->historicPrice
-            ->where('coin_id', $request->coin_id)->orderBy('created_at', 'desc')->first());
-        return response()->json($historicPrice, 200);
+    public function lastPriceBitcoin() {
+        return $this->lastPrice('bitcoin');
+    }
+
+    /**
+     * Display the latest coin price.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function lastPriceCoin(Request $request) {
+        return $this->lastPrice($request->coin_id);
     }
 
     /**
@@ -33,13 +41,18 @@ class HistoricPriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function priceDatetimeBitcoin(Request $request) {
-        $historicPrice = $this->historicPrice
-            ->where('coin_id', $request->coin_id)
-            ->whereDate('created_at', $request->date)
-            ->whereTime('created_at', $request->time)->get();
-        return response()->json($historicPrice, 200);
+        $request->coin_id = 'bitcoin';
+        return $this->priceDatetime($request);
+    }
 
-        #TODO: flexibilizar busca de hora
+    /**
+     * Display the estimated price of coin at a given date and time.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function priceDatetimeCoin(Request $request) {
+        return $this->priceDatetime($request);
     }
 
     /**
@@ -83,5 +96,33 @@ class HistoricPriceController extends Controller
         }
         $historicPrice->delete();
         return response()->json($historicPrice, 200);
+    }
+
+    /**
+     * Display the latest coin price.
+     *
+     * @param  string  $coin_id
+     * @return \Illuminate\Http\Response
+     */
+    private function lastPrice($coin_id) {
+        $historicPrice = new HistoricPriceResource($this->historicPrice
+            ->where('coin_id', $coin_id)->orderBy('created_at', 'desc')->first());
+        return response()->json($historicPrice, 200);
+    }
+
+    /**
+     * Display the estimated price of coin at a given date and time.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    private function priceDatetime(Request $request) {
+        $historicPrice = $this->historicPrice
+            ->where('coin_id', $request->coin_id)
+            ->whereDate('created_at', $request->date)
+            ->whereTime('created_at', $request->time)->get();
+        return response()->json($historicPrice, 200);
+
+        #TODO: flexibilizar busca de hora
     }
 }
