@@ -13,7 +13,35 @@ class HistoricPriceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the latest Bitcoin price.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function lastPriceBitcoin(Request $request) {
+        $historicPrice = $this->historicPrice
+            ->where('coin_id', $request->coin_id)->orderBy('created_at', 'desc')->first();
+        return response()->json($historicPrice, 200);
+    }
+
+    /**
+     * Display the estimated price of Bitcoin at a given date and time.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function priceDatetimeBitcoin(Request $request) {
+        $historicPrice = $this->historicPrice
+            ->where('coin_id', $request->coin_id)
+            ->whereDate('created_at', $request->date)
+            ->whereTime('created_at', $request->time)->get();
+        return response()->json($historicPrice, 200);
+
+        #TODO: flexibilizar busca de hora
+    }
+
+    /**
+     * Store the price of a coin in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -25,31 +53,31 @@ class HistoricPriceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the price historic for a specified coin.
      *
-     * @param  string  $coin_id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($coin_id)
+    public function show(Request $request)
     {
-        $historicPrice = $this->historicPrice->where('coin_id', $coin_id)->get();
+        $historicPrice = $this->historicPrice->where('coin_id', $request->coin_id)->get();
         if (!$historicPrice) {
-            return response()->json(['error'=>'Historico de preços de '.$coin_id.' não existe.'], 404);
+            return response()->json(['error'=>'Historico de preços de '.$request->coin_id.' não existe.'], 404);
         }
         return response()->json($historicPrice, 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove price historic for a specified coin.
      *
-     * @param  string  $coin_id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($coin_id)
+    public function destroy(Request $request)
     {
-        $historicPrice = $this->historicPrice->where('coin_id', $coin_id)->get();
+        $historicPrice = $this->historicPrice->where('coin_id', $request->coin_id)->get();
         if (!$historicPrice) {
-            return response()->json(['error'=>'Historico de preços de '.$coin_id.' não existe.'], 404);
+            return response()->json(['error'=>'Historico de preços de '.$request->coin_id.' não existe.'], 404);
         }
         $historicPrice->delete();
         return response()->json($historicPrice, 200);
