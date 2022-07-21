@@ -34,13 +34,13 @@ class SaveCryptoPrice extends Command
     {
         $coinHistoricController = new HistoricPriceController(new HistoricPrice());
         $request = new \Illuminate\Http\Request();
-        $coins = FormatData::implodeCoinsId(Coin::select('id')->get());
+        list($coins, $coins_id) = FormatData::implodeCoinsId(Coin::select('id','coin_id')->get());
 
         $priceCoins = FormatData::jsonDecodeResponse(CoinGeckoAPI::getPriceCoins($coins));
 
         foreach ($priceCoins as $key => $crypto) {
             $coinHistoricController->store($request->replace([
-                "coin_id" => $key,
+                "coin_id" => $coins_id[$key],
                 "price" => $crypto['brl']
             ]));
         }

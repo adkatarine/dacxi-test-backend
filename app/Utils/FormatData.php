@@ -4,11 +4,12 @@ namespace App\Utils;
 
 class FormatData {
 
-    public static function implodeCoinsId($coins_id) {
-        foreach ($coins_id as $coin) {
-            $coins[] = $coin['id'];
+    public static function implodeCoinsId($coins) {
+        foreach ($coins as $coin) {
+            $coins_id_name[] = $coin['coin_id'];
+            $coins_id[$coin['coin_id']] = $coin['id'];
         }
-        return implode(",", $coins);
+        return array(implode(",", $coins_id_name), $coins_id);
     }
 
     public static function jsonDecodeResponse($object) {

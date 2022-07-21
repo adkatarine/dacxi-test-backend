@@ -9,7 +9,8 @@ class Coin extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['coin_id', 'name', 'symbol'];
+    protected $fillable = ['id', 'coin_id', 'name', 'symbol'];
+    public $incrementing = false;
 
     public function historic_prices() {
         return $this->hasMany(HistoricPrice::class);
