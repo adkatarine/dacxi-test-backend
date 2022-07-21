@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('coins', function (Blueprint $table) {
-            $table->string('id', 10)->primary();
+            $table->id();
+            $table->string('coin_id', 10)->unique();
             $table->string('name', 20)->unique();
             $table->string('symbol', 10)->unique();
             $table->timestamps();

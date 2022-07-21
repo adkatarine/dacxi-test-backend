@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('historic_prices', function (Blueprint $table) {
             $table->id();
-            $table->string('coin_id');
+            $table->unsignedBigInteger('coin_id');
             $table->string('price', 10);
             $table->timestamps();
 
