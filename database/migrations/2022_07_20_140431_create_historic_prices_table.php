@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('historic_prices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('coin_id');
+            $table->string('coin_id', 15);
             $table->string('price', 10);
             $table->timestamps();
 
-            $table->foreign('coin_id')->references('id')->on('coins');
+            $table->foreign('coin_id')->references('id')->on('coins')->onDelete('cascade');
         });
     }
 
