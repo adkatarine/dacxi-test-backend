@@ -6,7 +6,7 @@ use App\Utils\FormatData;
 use App\Models\Coin;
 use App\Models\HistoricPrice;
 use App\Http\Controllers\HistoricPriceController;
-use App\Repositories\API\CoinGeckoAPI;
+use App\Repositories\API\CoinGeckoApi;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Console\Command;
 
@@ -39,7 +39,7 @@ class SaveCryptoPrice extends Command
             return FormatData::implodeCoinsId(Coin::select('id','coin_id')->get());
         });
 
-        $priceCoins = FormatData::jsonDecodeResponse(CoinGeckoAPI::getPriceCoins($coins));
+        $priceCoins = FormatData::jsonDecodeResponse(CoinGeckoApi::getPriceCoins($coins));
 
         foreach ($priceCoins as $key => $crypto) {
             $coinHistoricController->store($request->replace([
