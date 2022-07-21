@@ -117,12 +117,10 @@ class HistoricPriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function priceDatetime(Request $request) {
-        $historicPrice = $this->historicPrice
+        $historicPrice = new HistoricPriceResource($this->historicPrice
             ->where('coin_id', $request->coin_id)
             ->whereDate('created_at', $request->date)
-            ->whereTime('created_at', $request->time)->get();
+            ->whereTime('created_at', '<=', $request->time)->orderBy('created_at', 'desc')->first());
         return response()->json($historicPrice, 200);
-
-        #TODO: flexibilizar busca de hora
     }
 }

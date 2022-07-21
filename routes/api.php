@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/crypto/last-price-bitcoin', [HistoricPriceController::class, 'lastPriceBitcoin']);
-Route::get('/crypto/get-price-datetime-bitcoin', [HistoricPriceController::class, 'priceDatetimeBitcoin']);
+Route::get('/crypto/price-datetime-bitcoin', [HistoricPriceController::class, 'priceDatetimeBitcoin']);
 
 Route::get('/crypto/historic', [HistoricPriceController::class, 'show']);
 Route::get('/crypto/last-price-coin', [HistoricPriceController::class, 'lastPriceCoin']);
