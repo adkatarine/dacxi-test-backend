@@ -11,7 +11,7 @@ class HistoricPrice extends Model
 
     protected $fillable = ['coin_id', 'price'];
 
-    public function coins() {
+    public function coin() {
         return $this->belongsTo(Coin::class);
     }
 }

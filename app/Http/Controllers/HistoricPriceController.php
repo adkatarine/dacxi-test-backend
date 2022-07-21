@@ -75,7 +75,7 @@ class HistoricPriceController extends Controller
      */
     public function show(Request $request)
     {
-        $historicPrice = new HistoricPriceCollection($this->historicPrice->where('coin_id', $request->coin_id)->get());
+        $historicPrice = new HistoricPriceCollection($this->historicPrice->with('coin')->where('coin_id', $request->coin_id)->get());
         if (!$historicPrice) {
             return response()->json(['error'=>'Historico de preços de '.$request->coin_id.' não existe.'], 404);
         }
@@ -105,8 +105,13 @@ class HistoricPriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function lastPrice($coin_id) {
-        $historicPrice = new HistoricPriceResource($this->historicPrice
-            ->where('coin_id', $coin_id)->orderBy('created_at', 'desc')->first());
+        $historicPrice = $this->historicPrice
+            ->with('coin')->where('coin_id', $coin_id)
+            ->orderBy('created_at', 'desc')->first();
+        if (!$historicPrice) {
+            return response()->json(['error'=>'Histórico de preços da moeda '.$coin_id.' não existe.'], 404);
+        }
+        $historicPrice = new HistoricPriceResource($historicPrice);
         return response()->json($historicPrice, 200);
     }
 
@@ -117,10 +122,14 @@ class HistoricPriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     private function priceDatetime(Request $request) {
-        $historicPrice = new HistoricPriceResource($this->historicPrice
-            ->where('coin_id', $request->coin_id)
+        $historicPrice = $this->historicPrice
+            ->with('coin')->where('coin_id', $request->coin_id)
             ->whereDate('created_at', $request->date)
-            ->whereTime('created_at', '<=', $request->time)->orderBy('created_at', 'desc')->first());
+            ->whereTime('created_at', '<=', $request->time)->orderBy('created_at', 'desc')->first();
+        if (!$historicPrice) {
+            return response()->json(['error'=>'Não existe histórico de preço nesta data.'], 404);
+        }
+        $historicPrice = new HistoricPriceResource($historicPrice);
         return response()->json($historicPrice, 200);
     }
 }

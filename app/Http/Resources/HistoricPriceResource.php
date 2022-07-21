@@ -18,7 +18,8 @@ class HistoricPriceResource extends JsonResource
         $datetime = FormatData::dateTime($this->created_at);
         return [
             'id' => $this->id,
-            'coin' => $this->coin_id,
+            'coin_id' => $this->coin_id,
+            'name' => new CoinResource($this->coin),
             'price' => $this->price,
             'date' => $datetime['date'],
             'time' => $datetime['time'],
