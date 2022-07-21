@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HistoricPriceController;
+use App\Http\Controllers\CoinController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('coin', CoinController::class);
 
 Route::get('/crypto/last-price-bitcoin', [HistoricPriceController::class, 'lastPriceBitcoin']);
 Route::get('/crypto/price-datetime-bitcoin', [HistoricPriceController::class, 'priceDatetimeBitcoin']);

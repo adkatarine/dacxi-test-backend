@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class CoinController extends Controller
 {
+    public function __construct(Coin $coin) {
+        $this->coin = $coin;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +18,8 @@ class CoinController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $coins = $this->coin->get();
+        return response()->json($coins, 200);
     }
 
     /**
@@ -35,7 +30,8 @@ class CoinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $coin = $this->coin->create($request->all());
+        return response()->json($coin, 201);
     }
 
     /**
@@ -46,18 +42,11 @@ class CoinController extends Controller
      */
     public function show(Coin $coin)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Coin  $coin
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Coin $coin)
-    {
-        //
+        $coin = $this->coin->find($coin);
+        if (!$coin) {
+            return response()->json(['error'=>'Moeda '.$coin.' não existe.'], 404);
+        }
+        return response()->json($coin, 200);
     }
 
     /**
@@ -69,7 +58,14 @@ class CoinController extends Controller
      */
     public function update(Request $request, Coin $coin)
     {
-        //
+        $coin = $this->tag->find($coin);
+        if (!$coin) {
+            return response()->json(['error'=>'Moeda '.$coin.' não existe.'], 404);
+        }
+
+        $coin->fill($request->all());
+        $coin->save();
+        return response()->json($coin, 200);
     }
 
     /**
@@ -80,6 +76,11 @@ class CoinController extends Controller
      */
     public function destroy(Coin $coin)
     {
-        //
+        $coin = $this->tag->find($coin);
+        if (!$coin) {
+            return response()->json(['error'=>'Moeda '.$coin.' não existe.'], 404);
+        }
+        $coin->delete();
+        return response()->json($coin, 200);
     }
 }
