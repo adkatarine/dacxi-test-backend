@@ -63,6 +63,8 @@ class HistoricPriceController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->historicPrice->rules(), $this->historicPrice->feedback());
+
         $historicPrice = $this->historicPrice->create($request->all());
         return response()->json($historicPrice, 201);
     }
