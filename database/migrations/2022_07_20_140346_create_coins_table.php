@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('coins', function (Blueprint $table) {
             $table->string('id', 15)->primary();
             $table->string('coin_id', 15)->unique();
-            $table->string('name', 20)->unique();
+            $table->string('name', 30)->unique();
             $table->string('symbol', 10)->unique();
             $table->timestamps();
         });
