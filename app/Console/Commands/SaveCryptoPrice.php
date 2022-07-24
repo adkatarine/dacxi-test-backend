@@ -35,12 +35,18 @@ class SaveCryptoPrice extends Command
     {
         $coinHistoricController = new HistoricPriceController(new HistoricPrice());
         $request = new \Illuminate\Http\Request();
+
+        // usa um cache para os id's das moedas, retornando uma string com id's separados por vírgula para
+        // seu preços serem requisitados e um array com chave e valor com o id da moeda no banco e o id da
+        // moeda na api utilizada
         list($coins, $coins_id) = Cache::remember('list_coins', 43200, function () {
             return FormatData::implodeCoinsId(Coin::select('id','coin_id')->get());
         });
 
+        // solicita preço das moedas e formata o response em array
         $priceCoins = FormatData::jsonDecodeResponse(APICrypto::getPriceCoins($coins));
 
+        // salva o preço atual das moedas
         foreach ($priceCoins as $key => $crypto) {
             $coinHistoricController->store($request->replace([
                 "coin_id" => $coins_id[$key],
