@@ -50,6 +50,9 @@ $ composer install
 
 # Configure as variáveis de ambiente do banco de dados no arquivo .env
 
+# Crie uma nova chave para a aplicação
+$ php artisan key:generate
+
 # Execute este comando para criar todas as migrações
 $ php artisan migrate
 
@@ -65,6 +68,8 @@ $ php artisan serve
 # Escolha um cliente da sua preferência para testar a API e configure as rotas ou importe o arquivo insomnia-routes.json no Insominia. Caso deseje configurar as rotas, adicione no Headers de POST/PUT um header Accept com value application/json
 ```
 O arquivo insomnia-routes.json contém todas as configurações para teste localhost e pelo Heroku, você pode escolher o ambiente de teste que preferir.
+
+O id das moedas (coin_id) para testar as rotas de Historic Prices são: bitcoin, dacxi, terra-luna, cosmos e ethereum.
 
 # Decisões de projeto
 
