@@ -62,8 +62,9 @@ $ php artisan schedule:work
 # Abra outro terminal e execute a aplicação para acessar a API
 $ php artisan serve
 
-# Escolha um cliente da sua preferência para testar a API e configure as rotas ou importe o arquivo insomnia-routes.json no Insominia.
+# Escolha um cliente da sua preferência para testar a API e configure as rotas ou importe o arquivo insomnia-routes.json no Insominia. Caso deseje configurar as rotas, adicione no Headers de POST/PUT um header Accept com value application/json
 ```
+O arquivo insomnia-routes.json contém todas as configurações para teste localhost e pelo Heroku, você pode escolher o ambiente de teste que preferir.
 
 # Decisões de projeto
 
@@ -89,7 +90,7 @@ A Cache do Laravel foi utilizada na requisição dos id's das moedas no banco, n
 * [Laravel](https://laravel.com) - Framework na versão 9.x para criar a API
 * [MySQL](https://www.mysql.com) - Database
 * [Task Scheduling](https://laravel.com/docs/9.x/scheduling#running-the-scheduler-locally) - Agendador de tarefas do Laravel para ser possível salvar o histórico dos preços de tempos em tempos
-* [Cache](https://laravel.com/docs/9.x/cache) - Cache do Laravel para não ser necessário consultar o id das moedas no banco a cada requisição dos preços.
+* [Cache](https://laravel.com/docs/9.x/cache) - Cache do Laravel para não ser necessário consultar o id das moedas no banco a cada requisição dos preços
 * [CoinGecko API](https://www.coingecko.com/en/api/documentation) - API para consulta dos preços das moedas
-* [Heroku](https://dashboard.heroku.com) - Plataforma de hospedagem.
-* [Insomnia](https://insomnia.rest) - Cliente para testar a API.
+* [Heroku](https://dashboard.heroku.com) - Plataforma de hospedagem
+* [Insomnia](https://insomnia.rest) - Cliente para testar a API
