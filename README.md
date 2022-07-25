@@ -72,7 +72,7 @@ Duas tabelas foram criadas no banco de dados:
 * tabela coins para armazenar informações sobre as moedas como: id da moeda neste projeto, id da moeda na API de requisição dos preços, nome e símbolo da moeda.
 * tabela historic prices que armazena o id da moeda no projeto, o seu preço atual e o datetime.
 
-Essa estrutura de tabelas tende a facilitar a inserção ou exclusão do histórico de alguma moeda e na troca dos dados da moeda na troca de API da requisição dos preços. Atualmente, o banco armazena o histórico de cinco moedas: Bitcoin, DACXI, ETH, ATOM e LUNA.
+Essa estrutura de tabelas tende a facilitar a inserção ou exclusão do histórico de alguma moeda e na troca dos dados da moeda na troca de API da requisição dos preços. Atualmente, o banco armazena o histórico de preços de cinco moedas em real (BRL): Bitcoin, DACXI, ETH, ATOM e LUNA.
 
 ## API de requisição dos preços
 A classe estática responsável pelos dados e requisição da API CoinGecko implementa a interface APICrypto para minimizar grandes mudanças em outras partes do código caso seja necessário trocar de API.
