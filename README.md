@@ -1,64 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Technical Test for Backend - Dacxi
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Descrição
+Teste técnico da Dacxi com o objetivo de armazenar o histórico de preços do Bitcoin ao longo do tempo.
 
-## About Laravel
+# Rotas
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Rotas Historic Price
+```
+[GET] /api/crypto/last-price-bitcoin : A rota exibe o preço mais recente do bitcoin (salvo no histórico)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[GET] /api/crypto/price-datetime-bitcoin?date={date}&time={time} : A rota exibe o preço estimado do bitcoin em uma determinada data e hora passadas nos parâmetros da rota nos formatos: date=2022-07-20 e time=14:04:29
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+[GET] /api/crypto/last-price-coin?coin_id={id} : A rota exibe o preço mais recente de uma moeda (salvo no histórico) passada nos parâmetros da rota
 
-## Learning Laravel
+[GET] /api/crypto/price-datetime-coin?coin_id={id}&date={date}&time={time} : A rota exibe o preço estimado de uma moeda em uma determinada data e hora passadas nos parâmetros da rota nos formatos: coin_id=dacxi, date=2022-07-20 e time=14:04:29
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+[GET] /api/crypto/historic?coin_id={id} : A rota lista o histórico de preços de uma moeda passada nos parâmetros da rota
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+[DELETE] /api/crypto/{id} : A rota remove o histórico de preços de uma moeda passada nos parâmetros da rota
+```
 
-## Laravel Sponsors
+## Rotas Coin
+```
+[POST] /api/coin : A rota recebe id, id da moeda na API, nome e simbolo no seguinte formato: {"id": "bitcoin", "coin_id": "bitcoin", "name": "Bitcoin", "symbol": "btc"}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+[GET] /api/coin : A rota lista todas as moedas cadastradas
 
-### Premium Partners
+[GET] /api/coin/{id} : A rota lista as informações de uma moeda
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+[PUT] /api/coin/{id} : A rota atualiza as informações coin_id, name e symbol da moeda no seguinte formato: {"id": "bitcoin", "coin_id": "bitcoin", "name": "Bitcoin", "symbol": "btc"}, com o id presente nos parâmetros da rota
 
-## Contributing
+[DELETE] /api/coin/{id} : A rota deleta a meda com o id presente nos parâmetros da rota
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+# Deploy da aplicação
+A hospedagem da aplicação foi feita no Heroku e pode ser acessada [aqui](https://crypto-historic-price.herokuapp.com). O banco de dados utilizado nele foi o ClearDB MySQL e o Advanced Scheduler para auxiliar o Task Scheduling do Laravel.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Como executar o projeto em sua máquina
 
-## Security Vulnerabilities
+```
+# Clone este repositório
+$ git clone https://github.com/adkatarine/dacxi-test-backend.git
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Acesse a pasta do projeto no terminal ou cmd ou editor de sua preferência
 
-## License
+# Instale as dependências na raiz do projeto
+$ composer install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Configure as variáveis de ambiente do banco de dados no arquivo .env
+
+# Execute este comando para criar todas as migrações
+$ php artisan migrate
+
+# Execute este comando para popular a tabela coins com as moedas requisitadas usando o Seeder
+$ php artisan db:seed
+
+# Abra um terminal e ative a Task Scheduling (Agendamento de Tarefas) do Laravel
+$ php artisan schedule:work
+
+# Abra outro terminal e execute a aplicação para acessar a API
+$ php artisan serve
+
+# Escolha um cliente da sua preferência para testar a API e configure as rotas ou importe o arquivo insomnia-routes.json no Insominia.
+```
+
+# Decisões de projeto
+
+## Tabelas
+Duas tabelas foram criadas no banco de dados:
+* tabela coins para armazenar informações sobre as moedas como: id da moeda neste projeto, id da moeda na API de requisição dos preços, nome e símbolo da moeda.
+* tabela historic prices que armazena o id da moeda no projeto, o seu preço atual e o datetime.
+
+Essa estrutura de tabelas tende a facilitar a inserção ou exclusão do histórico de alguma moeda e na troca dos dados da moeda na troca de API da requisição dos preços. Atualmente, o banco armazena o histórico de cinco moedas: Bitcoin, DACXI, ETH, ATOM e LUNA.
+
+## API de requisição dos preços
+A classe estática responsável pelos dados e requisição da API CoinGecko implementa a interface APICrypto para minimizar grandes mudanças em outras partes do código caso seja necessário trocar de API.
+
+## Task Scheduling do Laravel
+O agendamento de tarefas do Laravel foi utilizado para requisitar a API CoinGecko e foi decidido que essa requisição seria a cada 5 minutos. Assim, sempre que o endpoint que estima o preço de uma moeda em uma determinada data e hora for requisitado, ele retornará o preço naquela exata hora ou dentro dos 5 minutos anteriores.
+
+## Cache do Laravel
+A Cache do Laravel foi utilizada na requisição dos id's das moedas no banco, no momento de requisição dos preços atuais, considerando que raramente moedas seriam adicionadas ou removidas do histórico, tornando descessário requisitar o banco com tanta frequência.
+
+
+# Construído com
+
+* [Laravel](https://laravel.com) - Framework na versão 9.x para criar a API
+* [MySQL](https://www.mysql.com) - Database
+* [Task Scheduling](https://laravel.com/docs/9.x/scheduling#running-the-scheduler-locally) - Agendador de tarefas do Laravel para ser possível salvar o histórico dos preços de tempos em tempos
+* [Cache](https://laravel.com/docs/9.x/cache) - Cache do Laravel para não ser necessário consultar o id das moedas no banco a cada requisição dos preços.
+* [CoinGecko API](https://www.coingecko.com/en/api/documentation) - API para consulta dos preços das moedas
+* [Heroku](https://dashboard.heroku.com) - Plataforma de hospedagem.
+* [Insomnia](https://insomnia.rest) - Cliente para testar a API.
