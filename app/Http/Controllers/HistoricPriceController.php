@@ -77,7 +77,7 @@ class HistoricPriceController extends Controller
      */
     public function show(Request $request)
     {
-        $historicPrice = new HistoricPriceCollection($this->historicPrice->with('coin')->where('coin_id', $request->coin_id)->get());
+        $historicPrice = new HistoricPriceCollection($this->historicPrice->with('coin')->where('coin_id', $request->coin_id)->orderBy('created_at', 'desc')->get());
         if (!$historicPrice) {
             return response()->json(['error'=>'Historico de preços de '.$request->coin_id.' não existe.'], 404);
         }
@@ -87,16 +87,16 @@ class HistoricPriceController extends Controller
     /**
      * Remove price historic for a specified coin.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $coin_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($coin_id)
     {
-        $historicPrice = $this->historicPrice->where('coin_id', $request->coin_id)->get();
+        $historicPrice = $this->historicPrice->where('coin_id', $coin_id)->get();
         if (!$historicPrice) {
-            return response()->json(['error'=>'Historico de preços de '.$request->coin_id.' não existe.'], 404);
+            return response()->json(['error'=>'Historico de preços de '.$coin_id.' não existe.'], 404);
         }
-        $historicPrice->delete();
+        $historicPrice->each->delete();
         return response()->json($historicPrice, 200);
     }
 

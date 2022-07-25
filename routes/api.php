@@ -28,3 +28,5 @@ Route::get('/crypto/price-datetime-bitcoin', [HistoricPriceController::class, 'p
 Route::get('/crypto/historic', [HistoricPriceController::class, 'show']);
 Route::get('/crypto/last-price-coin', [HistoricPriceController::class, 'lastPriceCoin']);
 Route::get('/crypto/price-datetime-coin', [HistoricPriceController::class, 'priceDatetimeCoin']);
+
+Route::delete('/crypto/{id}', [HistoricPriceController::class, 'destroy']);
